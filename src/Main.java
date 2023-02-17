@@ -3,14 +3,15 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+	
+	static List<Article> articles = new ArrayList<>();
+	
 	public static void main(String[] args) {
 		System.out.println("==프로그램 시작==");
-
 		Scanner sc = new Scanner(System.in);
-
 		int lastArticleId = 0;
-		List<Article> articles = new ArrayList<>();
-
+		makeTestData();
+		 
 		while (true) {
 			System.out.printf("명령어 ) ");
 			String command = sc.nextLine().trim();
@@ -132,7 +133,7 @@ public class Main {
 				foundArticle.title = title;
 				foundArticle.body = body;
 				
-				/* 2. Article 자체를 덮어씌우는 방식
+				/* 2. Article 자체를 덮어씌우는 방식 - 위 방식이 좀더 효율적
 				Article article2 = new Article(id, regDate, title, body);
 				articles.set(foundIndex, article2); */
 
@@ -147,7 +148,9 @@ public class Main {
 		System.out.println("==프로그램 끝==");
 
 		sc.close();
-
+	}
+	static void makeTestData() {
+		System.out.println("테스트를 위한 데이터를 생성합니다.");
 	}
 }
 
@@ -156,8 +159,8 @@ class Article {
 	String regDate;
 	String title;
 	String body;
-	int hit;
-
+	int hit;	
+	
 	Article(int id, String regDate, String title, String body) {
 		this.id = id;
 		this.regDate = regDate;
@@ -169,5 +172,4 @@ class Article {
 	void increaseHit() {
 		this.hit++;
 	}
-
 }
