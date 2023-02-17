@@ -74,6 +74,33 @@ public class Main {
 				System.out.printf("제목 : %s\n", foundArticle.title);
 				System.out.printf("내용 : %s\n", foundArticle.body);
 
+			} else if (command.startsWith("article delete ")) {
+
+				String[] cmdBits = command.split(" ");
+
+				int id = Integer.parseInt(cmdBits[2]);
+
+				int foundIndex = -1;
+
+				for (int i = 0; i < articles.size(); i++) {
+					Article article = articles.get(i);
+					if (article.id == id) {
+						foundIndex = i;
+						break;
+					}
+				}
+
+				if (foundIndex == -1) {
+					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
+					continue;
+				}
+				// size() -> 3
+				// index : 0, 1, 2
+				// id : 1, 2, 3
+
+				articles.remove(foundIndex);
+				System.out.printf("%d번 글을 삭제했습니다.\n", id);
+
 			}
 
 			else {
