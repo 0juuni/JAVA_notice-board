@@ -28,10 +28,10 @@ public class Main {
 				if (articles.size() == 0) {
 					System.out.println("게시글이 없습니다");
 				} else {
-					System.out.println("  번호   /   제목  ");
+					System.out.println("   번호     /     제목       /   조회  ");
 					for (int i = articles.size() - 1; i >= 0; i--) {
 						Article article = articles.get(i);
-						System.out.printf("  %d    /   %s  \n", article.id, article.title);
+						System.out.printf("  %4d    /   %7s      /  %4d    \n", article.id, article.title, article.hit);
 					}
 				}
 
@@ -68,11 +68,14 @@ public class Main {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
 					continue;
 				}
-
+				
+				foundArticle.increaseHit();
+				
 				System.out.printf("번호 : %d\n", foundArticle.id);
 				System.out.printf("날짜 : %s\n", foundArticle.regDate);
 				System.out.printf("제목 : %s\n", foundArticle.title);
 				System.out.printf("내용 : %s\n", foundArticle.body);
+				System.out.printf("조회수 :  %d\n", foundArticle.hit);
 
 			} else if (command.startsWith("article delete ")) {
 
@@ -101,6 +104,39 @@ public class Main {
 				articles.remove(foundIndex);
 				System.out.printf("%d번 글을 삭제했습니다.\n", id);
 
+			} else if (command.startsWith("article modify")) {
+				String[] cmdBits = command.split(" ");
+				int id = Integer.parseInt(cmdBits[2]);
+				//int foundIndex = -1;
+				Article foundArticle = null;
+
+				for (int i = 0; i < articles.size(); i++) {
+					Article article = articles.get(i);
+					if (article.id == id) {
+						foundArticle = article;
+						//foundIndex = i;
+						break;
+					}
+				}
+
+				if (foundArticle == null) {
+					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
+					continue;
+				}
+
+				System.out.printf("제목 : ");
+				String title = sc.nextLine();
+				System.out.printf("내용 : ");
+				String body = sc.nextLine();
+				
+				foundArticle.title = title;
+				foundArticle.body = body;
+				
+				/* 2. Article 자체를 덮어씌우는 방식
+				Article article2 = new Article(id, regDate, title, body);
+				articles.set(foundIndex, article2); */
+
+				System.out.println(id + "번 글이 수정되었습니다");
 			}
 
 			else {
@@ -120,12 +156,18 @@ class Article {
 	String regDate;
 	String title;
 	String body;
+	int hit;
 
 	Article(int id, String regDate, String title, String body) {
 		this.id = id;
 		this.regDate = regDate;
 		this.title = title;
 		this.body = body;
+		this.hit = 0;
+	}
+	
+	void increaseHit() {
+		this.hit++;
 	}
 
 }
