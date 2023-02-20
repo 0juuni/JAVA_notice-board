@@ -67,15 +67,7 @@ public class App {
 
 				int id = Integer.parseInt(cmdBits[2]);
 
-				Article foundArticle = null;
-
-				for (int i = 0; i < articles.size(); i++) {
-					Article article = articles.get(i);
-					if (article.id == id) {
-						foundArticle = article;
-						break;
-					}
-				}
+				Article foundArticle = getArticleById(id);
 
 				if (foundArticle == null) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
@@ -95,17 +87,17 @@ public class App {
 				String[] cmdBits = command.split(" ");
 
 				int id = Integer.parseInt(cmdBits[2]);
-				//int foundIndex = -1;
-				Article foundArticle = null;
+				// ---> 다른방식 int foundIndex = -1;
+				Article foundArticle = getArticleById(id);
 
-				for (int i = 0; i < articles.size(); i++) {
+				/* for (int i = 0; i < articles.size(); i++) {
 					Article article = articles.get(i);
 					if (article.id == id) {
 						foundArticle = article;
-						//foundIndex = i;
+						// --->> 다른 방식 foundIndex = i;
 						break;
-					}
-				}
+					} 
+				} */
 
 				if (foundArticle == null) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
@@ -119,10 +111,12 @@ public class App {
 
 				foundArticle.title = title;
 				foundArticle.body = body;
-				/* 2. Article 자체를 덮어씌우는 방식 - 위 방식이 좀더 효율적
-				Article article2 = new Article(id, regDate, title, body);
-				articles.set(foundIndex, article2); */
-				
+				/*
+				 ---> 다른 방식 : Article 자체를 덮어씌우는 방식 그러나 효율성 떨어짐 
+				 Article article2 = new Article(id,regDate, title, body); 
+				 articles.set(foundIndex, article2);
+				 */
+
 				System.out.printf("%d번 글을 수정했습니다.\n", id);
 
 			} else if (command.startsWith("article delete ")) {
@@ -131,16 +125,8 @@ public class App {
 
 				int id = Integer.parseInt(cmdBits[2]);
 
-				int foundIndex = -1;
-
-				for (int i = 0; i < articles.size(); i++) {
-					Article article = articles.get(i);
-					if (article.id == id) {
-						foundIndex = i;
-						break;
-					}
-				}
-
+				int foundIndex = getArticleIndexById(id);
+				
 				if (foundIndex == -1) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
 					continue;
@@ -148,7 +134,7 @@ public class App {
 				// size() -> 3
 				// index : 0, 1, 2
 				// id : 1, 2, 3
-				
+
 				articles.remove(foundIndex);
 				System.out.printf("%d번 글을 삭제했습니다.\n", id);
 
@@ -164,11 +150,46 @@ public class App {
 		sc.close();
 
 	}
-
+	private int getArticleIndexById(int id) {
+		int i =0;
+		for (Article article : articles) {
+			if(article.id == id) {
+				return i;
+			}
+			i++;
+		}
+		return -1;
+	}
+	
+	public Article getArticleById(int id) {
+		/* 1번 방식
+		 for (int i = 0; i < articles.size(); i++) {
+			Article article = articles.get(i);
+			if (article.id == id) {
+				return article;
+			} */
+		/* 2번방식\
+		 for (Article article : articles) {
+			if(article.id == id) {
+				return article;
+			}
+		}
+		return null; */
+		
+		//3번방식
+		int index = getArticleIndexById(id);
+		
+		if(index != -1) {
+			return articles.get(index);
+		}
+		return null;
+	}
 	static void makeTestData() {
 		System.out.println("테스트를 위한 데이터를 생성합니다");
 		articles.add(new Article(1, Util.getNowDateTimeStr(), "제목1", "내용1", 11));
 		articles.add(new Article(2, Util.getNowDateTimeStr(), "제목2", "내용2", 22));
 		articles.add(new Article(3, Util.getNowDateTimeStr(), "제목3", "내용3", 33));
 	}
+
+
 }
