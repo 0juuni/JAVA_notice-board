@@ -25,13 +25,17 @@ public class App {
 	public void run() {
 		System.out.println("==프로그램 시작==");
 
-		makeTestData();
-
 		Scanner sc = new Scanner(System.in);
-
+		
+		//Member/Article 컨트롤러
+		// MemberController -> 로그인 기능, Article Controller -> 게시글 기능
 		MemberController memberController = new MemberController(members, sc);
 		ArticleController articleController = new ArticleController(articles, sc);
-
+		
+		//테스트 데이터 생성
+		articleController.makeTestData();
+		
+		// 컨트롤러
 		Controller controller;
 
 		while (true) {
@@ -92,12 +96,5 @@ public class App {
 
 		sc.close();
 
-	}
-
-	public static void makeTestData() {
-		System.out.println("테스트를 위한 데이터를 생성합니다");
-		articles.add(new Article(1, Util.getNowDateTimeStr(), "제목1", "내용1", 11));
-		articles.add(new Article(2, Util.getNowDateTimeStr(), "제목2", "내용2", 22));
-		articles.add(new Article(3, Util.getNowDateTimeStr(), "제목3", "내용3", 33));
 	}
 }

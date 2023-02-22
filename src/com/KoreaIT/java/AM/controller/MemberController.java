@@ -33,7 +33,7 @@ public class MemberController extends Controller {
 		}
 	}
 
-	public void doJoin() {
+	private void doJoin() {
 		int id = lastMemberId + 1;
 		String regDate = Util.getNowDateTimeStr();
 		String loginId = null;
