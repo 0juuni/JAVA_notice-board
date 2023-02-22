@@ -19,7 +19,6 @@ public class MemberController extends Controller {
 		this.sc = sc;
 	}
 
-
 	int lastMemberId = 0;
 
 	public void doAction(String command, String actionMethodName) {
@@ -29,6 +28,12 @@ public class MemberController extends Controller {
 		switch (actionMethodName) {
 		case "join":
 			doJoin();
+			break;
+		case "login":
+			doLogin();
+			break;
+		default:
+			System.out.println("존재하지 않는 명령어입니다");
 			break;
 		}
 	}
@@ -73,9 +78,37 @@ public class MemberController extends Controller {
 
 		System.out.println(id + "번 회원이 가입되었습니다");
 		lastMemberId++;
-
 	}
+	
+	private void doLogin() {
+		System.out.printf("로그인 아이디 : ");
+		String loginId = sc.nextLine();
+		System.out.printf("로그인 비밀번호 : ");
+		String loginPw = sc.nextLine();
+		
+		Member member = getMemberByLoginId(loginId);
+		
+		if(member == null) {
+			System.out.println("해당 회원은 존재하지 않습니다");
+			return;
+		}
+		if (member.loginPw.equals(loginPw) == false) {
+			System.out.println("비밀번호를 확인해주세요");
+			return;
+		}
+		
+		System.out.printf("%s님 환영합니다\n", member.name);
+	}
+	private Member getMemberByLoginId(String loginId) {
+		int index = getMemberIndexByLoginId(loginId);
 
+		if (index == -1) {
+			return null;
+		}
+
+		return members.get(index);
+	}
+	
 	private boolean isJoinableLoginId(String loginId) {
 
 		int index = getMemberIndexByLoginId(loginId);
