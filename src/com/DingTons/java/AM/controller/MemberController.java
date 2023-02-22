@@ -13,7 +13,10 @@ public class MemberController extends Controller {
 	private Scanner sc;
 	private String command;
 	private String actionMethodName;
-
+	
+	// 로그인 상태 세션 요소
+	private Member loginedMember; 
+	
 	public MemberController(List<Member> members, Scanner sc) {
 		this.members = members;
 		this.sc = sc;
@@ -36,6 +39,13 @@ public class MemberController extends Controller {
 			System.out.println("존재하지 않는 명령어입니다");
 			break;
 		}
+	}
+	
+	public void makeTestData() {
+		System.out.println("테스트를 위한 회원 데이터를 생성합니다");
+		members.add(new Member(1, Util.getNowDateTimeStr(), "test1", "test1", "김철수"));
+		members.add(new Member(2, Util.getNowDateTimeStr(), "test2", "test2", "김영희"));
+		members.add(new Member(3, Util.getNowDateTimeStr(), "test3", "test3", "박영수"));
 	}
 
 	private void doJoin() {
@@ -81,24 +91,32 @@ public class MemberController extends Controller {
 	}
 	
 	private void doLogin() {
+		if (loginedMember != null) {
+			System.out.println("로그아웃 후 이용해주세요");
+			return;
+		}
 		System.out.printf("로그인 아이디 : ");
 		String loginId = sc.nextLine();
 		System.out.printf("로그인 비밀번호 : ");
 		String loginPw = sc.nextLine();
-		
+
 		Member member = getMemberByLoginId(loginId);
-		
-		if(member == null) {
+
+		if (member == null) {
 			System.out.println("해당 회원은 존재하지 않습니다");
 			return;
 		}
+
 		if (member.loginPw.equals(loginPw) == false) {
 			System.out.println("비밀번호를 확인해주세요");
 			return;
 		}
-		
-		System.out.printf("%s님 환영합니다\n", member.name);
+
+		loginedMember = member;
+
+		System.out.printf("%s님 환영합니다\n", loginedMember.name);
 	}
+
 	private Member getMemberByLoginId(String loginId) {
 		int index = getMemberIndexByLoginId(loginId);
 
