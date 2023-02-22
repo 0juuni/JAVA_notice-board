@@ -1,5 +1,6 @@
 package com.DingTons.java.AM.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,8 +15,8 @@ public class ArticleController extends Controller {
 	private String command;
 	private String actionMethodName;
 
-	public ArticleController(List<Article> articles, Scanner sc) {
-		this.articles = articles;
+	public ArticleController(Scanner sc) {
+		this.articles = new ArrayList<>();
 		this.sc = sc;
 	}
 

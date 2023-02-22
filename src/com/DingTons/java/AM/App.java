@@ -7,20 +7,9 @@ import java.util.Scanner;
 import com.DingTons.java.AM.controller.ArticleController;
 import com.DingTons.java.AM.controller.Controller;
 import com.DingTons.java.AM.controller.MemberController;
-import com.DingTons.java.AM.dto.Article;
-import com.DingTons.java.AM.dto.Member;
-import com.DingTons.java.AM.util.Util;
 
 public class App {
-
-	public static List<Article> articles;
-	public static List<Member> members;
 	
-	// ArrayList
-	static {
-		articles = new ArrayList<>();
-		members = new ArrayList<>();
-	}
 	// 영향을 주는 요소 do / 출력 동작 show
 	public void run() {
 		System.out.println("==프로그램 시작==");
@@ -29,12 +18,13 @@ public class App {
 		
 		//Member/Article 컨트롤러
 		// MemberController -> 회원가입, 로그인 기능, Article Controller -> 게시글 기능
-		MemberController memberController = new MemberController(members, sc);
-		ArticleController articleController = new ArticleController(articles, sc);
+		MemberController memberController = new MemberController(sc);
+		ArticleController articleController = new ArticleController(sc);
 		
 		//테스트 데이터 생성
 		articleController.makeTestData();
-		
+		memberController.makeTestData();
+
 		// 컨트롤러
 		Controller controller;
 

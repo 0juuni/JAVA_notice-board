@@ -2,7 +2,9 @@ package com.DingTons.java.AM.controller;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.ArrayList;
 
+import com.DingTons.java.AM.dto.Article;
 import com.DingTons.java.AM.dto.Member;
 import com.DingTons.java.AM.util.Util;
 
@@ -17,8 +19,8 @@ public class MemberController extends Controller {
 	// 로그인 상태 세션 요소
 	private Member loginedMember; 
 	
-	public MemberController(List<Member> members, Scanner sc) {
-		this.members = members;
+	public MemberController(Scanner sc) {
+		this.members = new ArrayList<>();
 		this.sc = sc;
 	}
 
