@@ -1,5 +1,6 @@
 package com.KoreaIT.java.AM.util;
 
+// Date 클래스 (날짜, 시각 정보)
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

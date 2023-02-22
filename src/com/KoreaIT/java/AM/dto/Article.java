@@ -1,5 +1,6 @@
 package com.KoreaIT.java.AM.dto;
 
+//Article 클래스 (게시물 정보)
 public class Article {
 	public int id;
 	public String regDate;

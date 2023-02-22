@@ -6,10 +6,13 @@ import java.util.Scanner;
 import com.KoreaIT.java.AM.dto.Article;
 import com.KoreaIT.java.AM.util.Util;
 
-public class ArticleController {
+//게시물 기능 컨트롤러
+public class ArticleController extends Controller {
 
 	private List<Article> articles;
 	private Scanner sc;
+	private String command;
+	private String actionMethodName;
 
 	public ArticleController(List<Article> articles, Scanner sc) {
 		this.articles = articles;
@@ -17,7 +20,31 @@ public class ArticleController {
 	}
 
 	int lastArticleId = 3;
+	
+	public void doAction(String command, String actionMethodName) {
+		this.command = command;
+		this.actionMethodName = actionMethodName;
 
+		switch (actionMethodName) {
+		case "list":
+			showList();
+			break;
+		case "write":
+			doWrite();
+			break;
+		case "detail":
+			showDetail();
+			break;
+		case "modify":
+			doModify();
+			break;
+		case "delete":
+			doDelete();
+			break;
+		}
+	}
+
+	
 	public void showList() {
 		if (articles.size() == 0) {
 			System.out.println("게시글이 없습니다");
@@ -47,7 +74,7 @@ public class ArticleController {
 
 	}
 
-	public void showDetail(String command) {
+	public void showDetail() {
 
 		String[] cmdBits = command.split(" ");
 
@@ -70,7 +97,7 @@ public class ArticleController {
 
 	}
 
-	public void doModify(String command) {
+	public void doModify() {
 		String[] cmdBits = command.split(" ");
 
 		int id = Integer.parseInt(cmdBits[2]);
@@ -107,7 +134,7 @@ public class ArticleController {
 
 	}
 
-	public void doDelete(String command) {
+	public void doDelete() {
 		String[] cmdBits = command.split(" ");
 
 		int id = Integer.parseInt(cmdBits[2]);
