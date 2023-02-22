@@ -1,4 +1,4 @@
-package com.KoreaIT.java.AM;
+package com.DingTons.java.AM;
 
 public class Main {
 	public static void main(String[] args) {

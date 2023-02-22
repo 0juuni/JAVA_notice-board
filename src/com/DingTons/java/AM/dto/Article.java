@@ -1,4 +1,4 @@
-package com.KoreaIT.java.AM.dto;
+package com.DingTons.java.AM.dto;
 
 //Article 클래스 (게시물 정보)
 public class Article {

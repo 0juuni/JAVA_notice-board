@@ -1,4 +1,4 @@
-package com.KoreaIT.java.AM.dto;
+package com.DingTons.java.AM.dto;
 
 //Member 클래스 (사용자 정보)
 public class Member extends Dto {

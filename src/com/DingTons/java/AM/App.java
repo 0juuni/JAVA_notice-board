@@ -1,15 +1,15 @@
-package com.KoreaIT.java.AM;
+package com.DingTons.java.AM;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import com.KoreaIT.java.AM.controller.ArticleController;
-import com.KoreaIT.java.AM.controller.Controller;
-import com.KoreaIT.java.AM.controller.MemberController;
-import com.KoreaIT.java.AM.dto.Article;
-import com.KoreaIT.java.AM.dto.Member;
-import com.KoreaIT.java.AM.util.Util;
+import com.DingTons.java.AM.controller.ArticleController;
+import com.DingTons.java.AM.controller.Controller;
+import com.DingTons.java.AM.controller.MemberController;
+import com.DingTons.java.AM.dto.Article;
+import com.DingTons.java.AM.dto.Member;
+import com.DingTons.java.AM.util.Util;
 
 public class App {
 
@@ -28,7 +28,7 @@ public class App {
 		Scanner sc = new Scanner(System.in);
 		
 		//Member/Article 컨트롤러
-		// MemberController -> 로그인 기능, Article Controller -> 게시글 기능
+		// MemberController -> 회원가입, 로그인 기능, Article Controller -> 게시글 기능
 		MemberController memberController = new MemberController(members, sc);
 		ArticleController articleController = new ArticleController(articles, sc);
 		

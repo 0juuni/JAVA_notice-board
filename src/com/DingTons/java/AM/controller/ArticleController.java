@@ -1,10 +1,10 @@
-package com.KoreaIT.java.AM.controller;
+package com.DingTons.java.AM.controller;
 
 import java.util.List;
 import java.util.Scanner;
 
-import com.KoreaIT.java.AM.dto.Article;
-import com.KoreaIT.java.AM.util.Util;
+import com.DingTons.java.AM.dto.Article;
+import com.DingTons.java.AM.util.Util;
 
 //게시물 기능 컨트롤러
 public class ArticleController extends Controller {
