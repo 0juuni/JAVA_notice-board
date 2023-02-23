@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import com.DingTons.java.AM.dto.Article;
 import com.DingTons.java.AM.util.Util;
+import com.DingTons.java.AM.dto.Member;
 
 //게시물 기능 컨트롤러
 public class ArticleController extends Controller {
@@ -31,18 +32,15 @@ public class ArticleController extends Controller {
 			showList();
 			break;
 		case "write":
-
 			doWrite();
 			break;
 		case "detail":
 			showDetail();
 			break;
 		case "modify":
-
 			doModify();
 			break;
 		case "delete":
-
 			doDelete();
 			break;
 		default:
@@ -59,16 +57,29 @@ public class ArticleController extends Controller {
 
 	
 	private void showList() {
+
 		if (articles.size() == 0) {
 			System.out.println("게시글이 없습니다");
 		} else {
 			System.out.println("   번호     /     제목       /   조회    /    작성자");
 			for (int i = articles.size() - 1; i >= 0; i--) {
 				Article article = articles.get(i);
-				System.out.printf("  %4d    /   %7s     /  %4d      /  %4d    \n", article.id, article.title,article.hit, article.memberId);
+
+				String writerName = null;
+
+				List<Member> members = Controller.members;
+
+				for (Member member : members) {
+					if (article.memberId == member.id) {
+						writerName = member.name;
+						break;
+					}
+				}
+
+				System.out.printf("  %4d    /   %7s      /  %4d      /  %4s    \n", article.id, article.title,
+						article.hit, writerName);
 			}
 		}
-
 	}
 
 	private void doWrite() {
@@ -98,12 +109,21 @@ public class ArticleController extends Controller {
 			System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
 			return;
 		}
+		
+		String writerName = null;
+
+		for (Member member : members) {
+			if (foundArticle.memberId == member.id) {
+				writerName = member.name;
+				break;
+			}
+		}
 
 		foundArticle.increaseHit();
 
 		System.out.printf("번호 : %d\n", foundArticle.id);
 		System.out.printf("날짜 : %s\n", foundArticle.regDate);
-		System.out.printf("작성자 : %d\n", foundArticle.memberId);
+		System.out.printf("작성자 : %s\n", writerName);
 		System.out.printf("제목 : %s\n", foundArticle.title);
 		System.out.printf("내용 : %s\n", foundArticle.body);
 		System.out.printf("조회수 : %d\n", foundArticle.hit);
