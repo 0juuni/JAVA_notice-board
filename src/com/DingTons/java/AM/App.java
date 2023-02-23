@@ -13,7 +13,6 @@ public class App {
 	// 영향을 주는 요소 do / 출력 동작 show
 	public void run() {
 		System.out.println("==프로그램 시작==");
-
 		Scanner sc = new Scanner(System.in);
 		
 		//Member/Article 컨트롤러
@@ -24,7 +23,10 @@ public class App {
 		//테스트 데이터 생성
 		articleController.makeTestData(); 
 		memberController.makeTestData();
-
+		
+		//명령어 안내
+		System.out.println("회원이 아니라면 가입을 진행해주세요 : member join");
+		
 		// 컨트롤러
 		Controller controller;
 
@@ -60,6 +62,31 @@ public class App {
 			} else {
 				System.out.println("존재하지 않는 명령어입니다");
 				continue;
+			}
+			
+			// 명령어 기능 제한
+			String cmdCombine = controllerName + "/" + actionMethodName;
+
+			switch (cmdCombine) {
+			case "article/write":
+			case "article/delete":
+			case "article/modify":
+			case "member/logout":
+				if (Controller.isLogined() == false) {
+					System.out.println("로그인 후 이용해주세요");
+					continue;
+				}
+				break;
+			}
+
+			switch (cmdCombine) {
+			case "member/login":
+			case "member/join":
+				if (Controller.isLogined()) {
+					System.out.println("로그아웃 후 이용해주세요");
+					continue;
+				}
+				break;
 			}
 			
 			// APP의 기능을 controller에 도입

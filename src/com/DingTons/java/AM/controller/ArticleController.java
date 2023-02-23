@@ -31,27 +31,18 @@ public class ArticleController extends Controller {
 			showList();
 			break;
 		case "write":
-			if (isLogined() == false) {
-				System.out.println("로그인 후 이용해주세요");
-				return;
-			}
+
 			doWrite();
 			break;
 		case "detail":
 			showDetail();
 			break;
 		case "modify":
-			if (isLogined() == false) {
-				System.out.println("로그인 후 이용해주세요");
-				return;
-			}
+
 			doModify();
 			break;
 		case "delete":
-			if (isLogined() == false) {
-				System.out.println("로그인 후 이용해주세요");
-				return;
-			}
+
 			doDelete();
 			break;
 		default:
@@ -60,10 +51,10 @@ public class ArticleController extends Controller {
 		}
 	}
 	public void makeTestData() {
-		System.out.println("테스트를 위한 데이터를 생성합니다");
-		articles.add(new Article(1, Util.getNowDateTimeStr(), 2, "제목1", "내용1", 11));
-		articles.add(new Article(2, Util.getNowDateTimeStr(), 1, "제목2", "내용2", 22));
-		articles.add(new Article(3, Util.getNowDateTimeStr(), 3, "제목3", "내용3", 33));
+		System.out.println("테스트를 위한 데이터를 생성합니다(3개)");
+		articles.add(new Article(1, Util.getNowDateTimeStr(), 2, "제목1", "내용1", 1));
+		articles.add(new Article(2, Util.getNowDateTimeStr(), 1, "제목2", "내용2", 2));
+		articles.add(new Article(3, Util.getNowDateTimeStr(), 3, "제목3", "내용3", 3));
 	}
 
 	
@@ -74,7 +65,7 @@ public class ArticleController extends Controller {
 			System.out.println("   번호     /     제목       /   조회    /    작성자");
 			for (int i = articles.size() - 1; i >= 0; i--) {
 				Article article = articles.get(i);
-				System.out.printf("  %4d    /   %7s      /  %4d      /  %4d    \n", article.id, article.title,article.hit, article.memberId);
+				System.out.printf("  %4d    /   %7s     /  %4d      /  %4d    \n", article.id, article.title,article.hit, article.memberId);
 			}
 		}
 
@@ -138,7 +129,11 @@ public class ArticleController extends Controller {
 			System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
 			return;
 		}
-
+		if (foundArticle.memberId != loginedMember.id) {
+			System.out.println("권한이 없습니다");
+			return;
+		}
+		
 		System.out.printf("제목 : ");
 		String title = sc.nextLine();
 		System.out.printf("내용 : ");
@@ -161,9 +156,9 @@ public class ArticleController extends Controller {
 
 		int id = Integer.parseInt(cmdBits[2]);
 
-		int foundIndex = getArticleIndexById(id);
+		Article foundArticle = getArticleById(id);
 
-		if (foundIndex == -1) {
+		if (foundArticle == null) {
 			System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
 			return;
 		}
@@ -171,7 +166,7 @@ public class ArticleController extends Controller {
 		// index : 0, 1, 2
 		// id : 1, 2, 3
 
-		articles.remove(foundIndex);
+		articles.remove(foundArticle);
 		System.out.printf("%d번 글을 삭제했습니다.\n", id);
 
 	}
