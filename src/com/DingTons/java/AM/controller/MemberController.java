@@ -1,24 +1,20 @@
 package com.DingTons.java.AM.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.ArrayList;
 
 import com.DingTons.java.AM.dto.Article;
 import com.DingTons.java.AM.dto.Member;
 import com.DingTons.java.AM.util.Util;
 
-//회원가입, 로그인 기능 컨트롤러
 public class MemberController extends Controller {
 
 	private List<Member> members;
 	private Scanner sc;
 	private String command;
 	private String actionMethodName;
-	
-	// 로그인 상태 세션 요소
-	private Member loginedMember; 
-	
+
 	public MemberController(Scanner sc) {
 		this.members = new ArrayList<>();
 		this.sc = sc;
@@ -37,19 +33,22 @@ public class MemberController extends Controller {
 		case "login":
 			doLogin();
 			break;
+		case "logout":
+			doLogout();
+			break;
 		default:
 			System.out.println("존재하지 않는 명령어입니다");
 			break;
 		}
 	}
-	
+
 	public void makeTestData() {
 		System.out.println("테스트를 위한 회원 데이터를 생성합니다");
 		members.add(new Member(1, Util.getNowDateTimeStr(), "test1", "test1", "김철수"));
 		members.add(new Member(2, Util.getNowDateTimeStr(), "test2", "test2", "김영희"));
 		members.add(new Member(3, Util.getNowDateTimeStr(), "test3", "test3", "박영수"));
 	}
-	
+
 	private void doLogout() {
 		if (isLogined() == false) {
 			System.out.println("로그아웃 상태입니다");
@@ -61,10 +60,63 @@ public class MemberController extends Controller {
 		System.out.println("로그아웃 되었습니다");
 	}
 
-	private boolean isLogined() {
-		return loginedMember != null;
+	private void doLogin() {
+		if (isLogined()) {
+			System.out.println("로그아웃 후 이용해주세요");
+			return;
+		}
+		System.out.printf("로그인 아이디 : ");
+		String loginId = sc.nextLine();
+		System.out.printf("로그인 비밀번호 : ");
+		String loginPw = sc.nextLine();
+
+		Member member = getMemberByLoginId(loginId);
+
+		if (member == null) {
+			System.out.println("해당 회원은 존재하지 않습니다");
+			return;
+		}
+
+		if (member.loginPw.equals(loginPw) == false) {
+			System.out.println("비밀번호를 확인해주세요");
+			return;
+		}
+
+		loginedMember = member;
+
+		System.out.printf("%s님 환영합니다\n", loginedMember.name);
 	}
 
+	private Member getMemberByLoginId(String loginId) {
+		int index = getMemberIndexByLoginId(loginId);
+
+		if (index == -1) {
+			return null;
+		}
+
+		return members.get(index);
+	}
+
+	private boolean isJoinableLoginId(String loginId) {
+		int index = getMemberIndexByLoginId(loginId);
+
+		if (index == -1) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private int getMemberIndexByLoginId(String loginId) {
+		int i = 0;
+		for (Member member : members) {
+			if (member.loginId.equals(loginId)) {
+				return i;
+			}
+			i++;
+		}
+		return -1;
+	}
 
 	private void doJoin() {
 		if (isLogined()) {
@@ -110,66 +162,7 @@ public class MemberController extends Controller {
 
 		System.out.println(id + "번 회원이 가입되었습니다");
 		lastMemberId++;
-	}
-	
-	private void doLogin() {
-		if (isLogined()) {
-			System.out.println("로그아웃 후 이용해주세요");
-			return;
-		}
-		System.out.printf("로그인 아이디 : ");
-		String loginId = sc.nextLine();
-		System.out.printf("로그인 비밀번호 : ");
-		String loginPw = sc.nextLine();
 
-		Member member = getMemberByLoginId(loginId);
-
-		if (member == null) {
-			System.out.println("해당 회원은 존재하지 않습니다");
-			return;
-		}
-
-		if (member.loginPw.equals(loginPw) == false) {
-			System.out.println("비밀번호를 확인해주세요");
-			return;
-		}
-
-		loginedMember = member;
-
-		System.out.printf("%s님 환영합니다\n", loginedMember.name);
-	}
-	
-	
-	private Member getMemberByLoginId(String loginId) {
-		int index = getMemberIndexByLoginId(loginId);
-
-		if (index == -1) {
-			return null;
-		}
-
-		return members.get(index);
-	}
-	
-	private boolean isJoinableLoginId(String loginId) {
-
-		int index = getMemberIndexByLoginId(loginId);
-
-		if (index == -1) {
-			return true;
-		}
-
-		return false;
-	}
-
-	private int getMemberIndexByLoginId(String loginId) {
-		int i = 0;
-		for (Member member : members) {
-			if (member.loginId.equals(loginId)) {
-				return i;
-			}
-			i++;
-		}
-		return -1;
 	}
 
 }

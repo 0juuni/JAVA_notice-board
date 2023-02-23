@@ -22,7 +22,7 @@ public class App {
 		ArticleController articleController = new ArticleController(sc);
 		
 		//테스트 데이터 생성
-		articleController.makeTestData();
+		articleController.makeTestData(); 
 		memberController.makeTestData();
 
 		// 컨트롤러
